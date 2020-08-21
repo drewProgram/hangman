@@ -2,6 +2,22 @@
 #include <string.h>
 #include <ctype.h>
 
+void opening() {
+  printf("***************************\n");
+  printf("*      HANGMAN GAME       *\n");
+  printf("***************************\n\n");
+}
+
+void makeGuess(char guesses[26], int* attempts) {
+  char guess;
+    printf("Choose a letter: ");
+    scanf(" %c", &guess);
+    guess = toupper(guess);
+
+    guesses[*attempts] = guess;
+    (*attempts)++;
+}
+
 int main() {
   char secretWord[20];
 
@@ -13,6 +29,8 @@ int main() {
 
   char guesses[26];
   int attempts = 0;
+
+  opening();
 
   do
   {
@@ -40,13 +58,7 @@ int main() {
     }
     printf("\n\n");
 
-    char guess;
-    printf("Choose a letter: ");
-    scanf(" %c", &guess);
-    guess = toupper(guess);
-
-    guesses[attempts] = guess;
-    attempts++;
+    makeGuess(guesses, &attempts);
 
   } while (!won && !hanged);
 
