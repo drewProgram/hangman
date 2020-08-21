@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 int main() {
   char secretWord[20];
@@ -40,7 +41,9 @@ int main() {
     printf("\n\n");
 
     char guess;
+    printf("Choose a letter: ");
     scanf(" %c", &guess);
+    guess = toupper(guess);
 
     guesses[attempts] = guess;
     attempts++;
