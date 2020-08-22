@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "hangman.h"
+#include "../headers/hangman.h"
 
 char secretWord[20];
 char guesses[26];
