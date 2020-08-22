@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "hangman.h"
 
 char secretWord[20];
 char guesses[26];
@@ -58,9 +59,36 @@ void makeGuess() {
     attempts++;
 }
 
+int hasHanged() {
+  int fails = 0;
+
+  for (int i = 0; i < attempts; i++) {
+    int exists = 0;
+
+    for (int j = 0; j < strlen(secretWord); j++) {
+      if (guesses[i] == secretWord[j]) {
+        exists = 1;
+        break;
+      }
+    }
+
+    if (!exists) fails++;
+  }
+
+  return fails >= 5;
+}
+
+int hasWon() {
+  for (int i = 0; i < strlen(secretWord); i++) {
+    if (!hasGuessed(secretWord[i])) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
 int main() {
-  int won = 0;
-  int hanged = 0;
 
   defineWord(secretWord);
   opening();
@@ -71,6 +99,6 @@ int main() {
 
     makeGuess();
 
-  } while (!won && !hanged);
+  } while (!hasWon() && !hasHanged());
 
 }
