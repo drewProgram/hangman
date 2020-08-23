@@ -5,7 +5,7 @@
 #include <time.h>
 #include "../headers/hangman.h"
 
-char secretWord[20];
+char secretWord[WORD_SIZE];
 char guesses[26];
 int attempts = 0;
 
@@ -15,14 +15,18 @@ void defineWord() {
 
   // first param: path (starting point is root); second: how it's going to be open (r = readonly)
   f = fopen("words.txt", "r");
+  if (f == 0) {
+    printf("Desculpe, banco de dados não disponível!\n\n");
+    exit(1);
+  }
 
-  int wordsQtt;
+  int wordsQty;
   // reading a file
   // file, type, var
-  fscanf(f, "%d", &wordsQtt);
+  fscanf(f, "%d", &wordsQty);
 
   srand(time(0));
-  int random = rand() % wordsQtt;
+  int random = rand() % wordsQty;
 
   for (int i = 0; i <= random; i++) {
     fscanf(f, "%s", secretWord);
@@ -108,6 +112,41 @@ int hasWon() {
   return 1;
 }
 
+void addWord() {
+  char choice;
+
+  printf("Do you wish to add a new word to the game? (S/N)\n");
+  scanf(" %c", &choice);
+  choice = toupper(choice);
+
+  if (choice == 'S') {
+    char newWord[WORD_SIZE];
+    printf("Which word it is?");
+    scanf("%s", newWord);
+
+    FILE* f;
+    f = fopen("words.txt", "r+");
+
+    if (f == 0) {
+    printf("Sorry, game database not working!\n\n");
+    exit(1);
+  }
+
+    int qty;
+    fscanf(f, "%d", &qty);
+    qty++;
+
+    // sets the position of the "file manager" to the start
+    fseek(f, 0, SEEK_SET);
+    fprintf(f, "%d", qty);
+
+    fseek(f, 0, SEEK_END);
+    fprintf(f, "\n%s", newWord);
+
+    fclose(f);
+  }
+}
+
 int main() {
 
   defineWord(secretWord);
@@ -121,4 +160,10 @@ int main() {
 
   } while (!hasWon() && !hasHanged());
 
+  if (hasWon()) {
+    printf("Congratulations, you won the game!\n\n");
+  }
+  else {
+
+  }
 }
