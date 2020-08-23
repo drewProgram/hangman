@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <ctype.h>
+#include <time.h>
 #include "../headers/hangman.h"
 
 char secretWord[20];
@@ -8,7 +10,25 @@ char guesses[26];
 int attempts = 0;
 
 void defineWord() {
-  sprintf(secretWord, "HANGMAN");
+  // fopen returns a pointer
+  FILE* f;
+
+  // first param: path (starting point is root); second: how it's going to be open (r = readonly)
+  f = fopen("words.txt", "r");
+
+  int wordsQtt;
+  // reading a file
+  // file, type, var
+  fscanf(f, "%d", &wordsQtt);
+
+  srand(time(0));
+  int random = rand() % wordsQtt;
+
+  for (int i = 0; i <= random; i++) {
+    fscanf(f, "%s", secretWord);
+  }
+
+  fclose(f);
 }
 
 void opening() {
