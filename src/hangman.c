@@ -57,6 +57,18 @@ int hasGuessed(char letter) {
 }
 
 void drawHanger() {
+  int fails = failedGuesses();
+
+  printf("  _______      \n");
+  printf(" |/      |     \n");
+  printf(" |      %c%c%c \n", (fails >= 1 ? '(' : ' '), (fails >= 1 ? '_' : ' '), (fails >= 1 ? ')' : ' '));
+  printf(" |      %c%c%c \n", (fails >= 2 ? '\\' : ' '), (fails >= 2 ? '|' : ' '), (fails >= 2 ? '/' : ' '));
+  printf(" |       %c    \n", (fails >= 3 ? '|' : ' '));
+  printf(" |      %c%c%c \n", (fails >= 4 ? '/' : ' '), ' ', (fails >= 4 ? '\\' : ' '));
+  printf(" |             \n");
+  printf("_|___          \n");
+  printf("\n\n");
+
   for (int i = 0; i < strlen(secretWord); i++)
     {
       int found = hasGuessed(secretWord[i]);
@@ -70,7 +82,13 @@ void drawHanger() {
         printf("_ ");
       }
     }
-    printf("\n\n");
+  printf("\n\n");
+
+  for (int i = 0; i < strlen(guesses); i++) {
+    printf("%c ", guesses[i]);
+  }
+
+  printf("\n\n");
 }
 
 void makeGuess() {
@@ -83,7 +101,7 @@ void makeGuess() {
     attempts++;
 }
 
-int hasHanged() {
+int failedGuesses() {
   int fails = 0;
 
   for (int i = 0; i < attempts; i++) {
@@ -99,7 +117,11 @@ int hasHanged() {
     if (!exists) fails++;
   }
 
-  return fails >= 5;
+  return fails;
+}
+
+int hasHanged() {
+  return failedGuesses() >= 5;
 }
 
 int hasWon() {
@@ -162,8 +184,34 @@ int main() {
 
   if (hasWon()) {
     printf("Congratulations, you won the game!\n\n");
+    printf("       ___________      \n");
+    printf("      '._==_==_=_.'     \n");
+    printf("      .-\\:      /-.    \n");
+    printf("     | (|:.     |) |    \n");
+    printf("      '-|:.     |-'     \n");
+    printf("        \\::.    /      \n");
+    printf("         '::. .'        \n");
+    printf("           ) (          \n");
+    printf("         _.' '._        \n");
+    printf("        '-------'       \n\n");
   }
   else {
-
+    printf("You were hanged!\nThe correct word was *** %s ***\n\n", secretWord);
+    printf("    _______________         \n");
+    printf("   /               \\       \n");
+    printf("  /                 \\      \n");
+    printf("//                   \\/\\  \n");
+    printf("\\|   XXXX     XXXX   | /   \n");
+    printf(" |   XXXX     XXXX   |/     \n");
+    printf(" |   XXX       XXX   |      \n");
+    printf(" |                   |      \n");
+    printf(" \\__      XXX      __/     \n");
+    printf("   |\\     XXX     /|       \n");
+    printf("   | |           | |        \n");
+    printf("   | I I I I I I I |        \n");
+    printf("   |  I I I I I I  |        \n");
+    printf("   \\_             _/       \n");
+    printf("     \\_         _/         \n");
+    printf("       \\_______/           \n");
   }
 }

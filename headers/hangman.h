@@ -8,3 +8,4 @@ void makeGuess();
 int hasHanged();
 int hasWon();
 void addWord();
+int failedGuesses();
